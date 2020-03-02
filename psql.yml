@@ -27,8 +27,3 @@
      apt: 
       name: postgresql-contrib
       state: present
-      
-   - name: Start psql
-     service: 
-       name: postgresql
-       state: started
