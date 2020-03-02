@@ -22,8 +22,8 @@
       name: nginx
       state: present
       
-  - name: Start nginx
-    apt:
+  - name: Start nginx service
+    service:
       name: nginx
       state: started
       
