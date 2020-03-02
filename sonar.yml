@@ -84,8 +84,23 @@
       src: /home/ansadmin/playbook/sonarqube.service
       dest: /etc/systemd/system/
       
+  - name: Enable sonarqube service
+    become_user: root
+    shell:
+      cmd: systemctl enable sonarqube
+      
   - name: Start sonarqube service
     service:
       name: sonarqube
       state: started
       
+  - name: copy nginx file
+    copy: 
+      src: /home/ansadmin/playbook/sonarqube
+      dest: /etc/nginx/sites-enabled/
+      
+  - name: Restart nginx service
+    service:
+      name: nginx
+      state: restarted
+
