@@ -38,7 +38,7 @@
       src: "/opt/sonar/sonarqube-8.0"
       dest: "/opt/sonarqube"
       state: link
-      owner: sonar
+      owner: ansadmin
       
   - name: Configure SonarQube DB username
     lineinfile:
