@@ -71,6 +71,13 @@
       regexp: "sonar.web.host=0.0.0.0"
       insertafter: "^#sonar.web.host=0.0.0.0"
       line: "sonar.web.host=127.0.0.1"
+   
+  - name: Change javaAdditionalOpts
+    lineinfile:
+      path: "/opt/sonarqube/conf/sonar.properties"
+      regexp: "sonar.web.javaAdditionalOpts="
+      insertafter: "^#ssonar.web.javaAdditionalOpts="
+      line: "sonar.web.javaAdditionalOpts=-server"
 
   - name: Configure SonarQube to run as the sonar user
     lineinfile:
@@ -84,15 +91,15 @@
       src: /home/ansadmin/playbook/sonarqube.service
       dest: /etc/systemd/system/
       
-  - name: Enable sonarqube service
-    become_user: root
-    shell:
-      cmd: systemctl enable sonarqube
-      
   - name: Start sonarqube service
     service:
       name: sonarqube
       state: started
+      
+  - name: Enable sonarqube service
+    become_user: root
+    shell:
+      cmd: systemctl enable sonarqube
       
   - name: copy nginx file
     copy: 
