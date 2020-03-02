@@ -2,9 +2,13 @@
 - hosts: sonar
   become: true
   tasks:
-   - name: Install default-jdk
+   - name: Add java key
+     shell:
+       cmd: add-apt-repository ppa:webupd8team/java
+       
+   - name: Install oracle-java8-installer
      apt:
-       name: default-jdk
+       name: oracle-java8-installer
        state: present
        
    - name: Install python-psycopg2
