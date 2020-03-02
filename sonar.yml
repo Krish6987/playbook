@@ -33,7 +33,7 @@
       state: present
       
  - name: Create sonar group
-    user:
+    group:
       name: sonar
       state: present
   
