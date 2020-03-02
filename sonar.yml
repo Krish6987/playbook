@@ -23,8 +23,8 @@
       state: started
   
   - name: Create sonar user
-    shell:
-      cmd: useradd sonar
+    user:
+      name: sonar
   
   - name: Create sonar user in databse
     become_user: postgres
