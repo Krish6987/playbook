@@ -96,7 +96,7 @@
       
   - name: Copy sonar service to systemd
     copy:
-      src: /home/ansadmin/playbooks/sonarqube.service
+      src: /home/ansadmin/playbook/sonarqube.service
       dest: /etc/systemd/system/
       
   - name: Start sonarqube service
@@ -129,7 +129,7 @@
       
   - name: copy nginx file
     copy: 
-      src: /home/ansadmin/playbooks/sonarqube
+      src: /home/ansadmin/playbook/sonarqube
       dest: /etc/nginx/sites-enabled/
       
   - name: Restart nginx service
