@@ -118,8 +118,9 @@
       validate: '/usr/sbin/visudo -cf %s'
       
   - name: Give permission to the sonar user
+    become_user: root
     shell:
-      cmd: sudo chown -R sonar:sonar /opt/sonarqube
+      cmd: chown -R sonar:sonar /opt/sonarqube
       
   - name: Copy sonar service to systemd
     copy:
