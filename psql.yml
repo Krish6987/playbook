@@ -1,14 +1,10 @@
 ---
 - hosts: sonar
   become: true
-  tasks:
-   - name: Add java key
-     shell:
-       cmd: add-apt-repository ppa:linuxuprising/java
-       
-   - name: Install oracle-java8-installer
+  tasks:       
+   - name: Install oracle-java10-installer
      apt:
-       name: oracle-java8-installer
+       name: oracle-java10-set-default
        state: present
        
    - name: Install python-psycopg2
