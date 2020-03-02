@@ -34,7 +34,7 @@
   
   - name: Create sonar user
     shell:
-      cmd: adduser sonar
+      cmd: useradd sonar
   
   - name: Create sonar user in databse
     become_user: postgres
