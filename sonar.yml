@@ -32,10 +32,17 @@
       name: python-psycopg2
       state: present
       
+ - name: Create sonar group
+    user:
+      name: sonar
+      state: present
+  
+      
   - name: Create sonar user
     user:
       name: sonar
-      expires: -1
+      group: sonar
+      append: yes
   
   - name: Create sonar user in databse
     become_user: postgres
