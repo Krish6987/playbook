@@ -31,17 +31,10 @@
     apt:
       name: python-psycopg2
       state: present
-      
-  - name: Create sonar group
-    group:
-      name: sonar
-      state: present
   
   - name: Create sonar user
-    user:
-      name: sonar
-      group: sonar
-      append: yes
+    shell:
+      cmd: adduser sonar
   
   - name: Create sonar user in databse
     become_user: postgres
@@ -108,14 +101,6 @@
       regexp: "RUN_AS_USER=sonar"
       insertafter: "#RUN_AS_USER="
       line: "RUN_AS_USER=sonar"
-      
-  - name: Adding user to visudo
-    lineinfile:
-      path: /etc/sudoers
-      state: present
-      regexp: '^%ADMIN ALL='
-      line: 'sonar   ALL=(ALL)  NOPASSWD: ALL'
-      validate: '/usr/sbin/visudo -cf %s'
       
   - name: Give permission to the sonar user
     become_user: root
