@@ -17,3 +17,9 @@
      apt: 
       name: postgresql-contrib
       state: present
+      
+   - name: Enable psql
+     service: name=postgresql status=enabled
+    
+   - name: Start psql
+     service: name=postgresql status=started
