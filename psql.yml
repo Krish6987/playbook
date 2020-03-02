@@ -2,9 +2,9 @@
 - hosts: sonar
   become: true
   tasks:       
-   - name: Install oracle-java10-installer
+   - name: Install openjdk-11-jdk
      apt:
-       name: oracle-java10-set-default
+       name: openjdk-11-jdk
        state: present
        
    - name: Install python-psycopg2
