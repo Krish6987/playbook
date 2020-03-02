@@ -26,19 +26,6 @@
     user:
       name: sonar
   
-  - name: Create sonar user in databse
-    become_user: postgres
-    postgresql_user:
-      name: sonar
-      password: sonar
-      role_attr_flags: CREATEDB,NOSUPERUSER
-      
-  - name: Create sonar database
-    become_user: postgres
-    postgresql_db:
-      name: sonar
-      owner: sonar
-      
   - name: Create sonar directory
     file:
       path: "/opt/sonar"
@@ -107,24 +94,14 @@
       name: sonarqube
       state: started
       
-  - name: Enable Firewall
-    ufw:
-     state: enabled
-    
-  - name: Allow Port 9000
-    ufw:
-     rule: allow
-     port: '9000'
-    
-  - name: Allow OpenSSH
-    ufw:
-     rule: allow
-     name: OpenSSH
-      
   - name: copy nginx file
     copy: 
       src: /home/ansadmin/playbook/sonarqube
       dest: /etc/nginx/sites-enabled/
+      
+  - name: check nginx script
+    shell:
+      cmd: nginx -t
       
   - name: Restart sonarqube service
     service:
