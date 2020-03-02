@@ -77,7 +77,7 @@
       path: "/opt/sonarqube/conf/sonar.properties"
       regexp: "sonar.web.javaAdditionalOpts="
       insertafter: "^#sonar.web.javaAdditionalOpts="
-      line: "sonar.web.javaAdditionalOpts=-server"
+      line: "sonar.web.javaAdditionalOpts=-server -Xmx768m -XX:MaxPermSize=160m -XX:+HeapDumpOnOutOfMemoryError"
 
   - name: Configure SonarQube to run as the sonar user
     lineinfile:
