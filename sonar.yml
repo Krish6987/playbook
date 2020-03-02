@@ -32,7 +32,7 @@
       name: python-psycopg2
       state: present
       
- - name: Create sonar group
+  - name: Create sonar group
     group:
       name: sonar
       state: present
