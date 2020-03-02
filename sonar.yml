@@ -37,7 +37,6 @@
       name: sonar
       state: present
   
-      
   - name: Create sonar user
     user:
       name: sonar
@@ -110,6 +109,10 @@
       regexp: '^%ADMIN ALL='
       line: 'sonar   ALL=(ALL)  NOPASSWD: ALL'
       validate: '/usr/sbin/visudo -cf %s'
+      
+  - name: Give permission to the sonar user
+    shell:
+      cmd: sudo chown -R sonar:sonar /opt/sonarqube
       
   - name: Copy sonar service to systemd
     copy:
