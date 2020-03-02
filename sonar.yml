@@ -72,12 +72,12 @@
       insertafter: "^#sonar.web.host=0.0.0.0"
       line: "sonar.web.host=127.0.0.1"
    
-  - name: Change javaAdditionalOpts
+  - name: Change javaOpts
     lineinfile:
       path: "/opt/sonarqube/conf/sonar.properties"
-      regexp: "sonar.web.javaAdditionalOpts="
-      insertafter: "^#sonar.web.javaAdditionalOpts="
-      line: "sonar.web.javaAdditionalOpts=-server -Xmx768m -XX:MaxPermSize=160m -XX:+HeapDumpOnOutOfMemoryError"
+      regexp: "sonar.search.javaOpts="
+      insertafter: "^#sonar.search.javaOpts="
+      line: "sonar.search.javaOpts=-Xms512m  -Xmx512m"
 
   - name: Configure SonarQube to run as the sonar user
     lineinfile:
