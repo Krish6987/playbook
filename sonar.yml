@@ -24,7 +24,7 @@
   
   - name: Create sonar user
     user:
-      name: sonar
+      name: sonarqube
   
   - name: Create sonar directory
     file:
@@ -42,7 +42,7 @@
       src: "/opt/sonar/sonarqube-8.0"
       dest: "/opt/sonarqube"
       state: link
-      owner: sonar
+      owner: sonarqube
       
   - name: Configure SonarQube DB username
     lineinfile:
@@ -77,12 +77,7 @@
       path: "/opt/sonarqube/bin/linux-x86-64/sonar.sh"
       regexp: "RUN_AS_USER=sonar"
       insertafter: "#RUN_AS_USER="
-      line: "RUN_AS_USER=sonar"
-      
-  - name: Give permission to the sonar user
-    become_user: root
-    shell:
-      cmd: chown -R sonar:sonar /opt/sonarqube
+      line: "RUN_AS_USER=sonarqube"
       
   - name: Copy sonar service to systemd
     copy:
@@ -94,21 +89,3 @@
       name: sonarqube
       state: started
       
-  - name: copy nginx file
-    copy: 
-      src: /home/ansadmin/playbook/sonarqube
-      dest: /etc/nginx/sites-enabled/
-      
-  - name: check nginx script
-    shell:
-      cmd: nginx -t
-      
-  - name: Restart sonarqube service
-    service:
-      name: sonarqube
-      state: restarted
-      
-  - name: Restart nginx service
-    service:
-      name: nginx
-      state: restarted
