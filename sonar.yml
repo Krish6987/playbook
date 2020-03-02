@@ -76,7 +76,7 @@
     lineinfile:
       path: "/opt/sonarqube/conf/sonar.properties"
       regexp: "sonar.web.javaAdditionalOpts="
-      insertafter: "^#ssonar.web.javaAdditionalOpts="
+      insertafter: "^#sonar.web.javaAdditionalOpts="
       line: "sonar.web.javaAdditionalOpts=-server"
 
   - name: Configure SonarQube to run as the sonar user
