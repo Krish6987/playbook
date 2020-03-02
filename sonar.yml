@@ -104,15 +104,11 @@
       name: sonarqube
       state: started
       
-  - name: Enable sonarqube service
-    service:
-      name: sonarqube
-      state: enabled
-      
   - name: Restart sonarqube service
     service:
       name: sonarqube
       state: restarted
+      
   - name: Enable Firewall
     ufw:
      state: enabled
