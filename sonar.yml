@@ -33,13 +33,13 @@
 
   - name: Extract SonarQube
     unarchive:
-      src: https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-8.0.zip
+      src: https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-6.7.6.zip
       dest: /opt/sonar/
       remote_src: yes
       
   - name: Link this version of sonarqube as the server SonarQube version
     file:
-      src: "/opt/sonar/sonarqube-8.0"
+      src: "/opt/sonar/sonarqube-6.7.6"
       dest: "/opt/sonarqube"
       state: link
       owner: sonarqube
