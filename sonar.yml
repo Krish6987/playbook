@@ -17,6 +17,16 @@
       name: default-jdk
       state: present
       
+  - name: Install nginx
+    apt:
+      name: nginx
+      state: present
+      
+  - name: Start nginx
+    apt:
+      name: nginx
+      state: started
+      
   - name: Install python-psycopg2
     apt:
       name: python-psycopg2
