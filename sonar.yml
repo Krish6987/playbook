@@ -107,11 +107,6 @@
       name: sonarqube
       state: started
       
-  - name: Restart sonarqube service
-    service:
-      name: sonarqube
-      state: restarted
-      
   - name: Enable Firewall
     ufw:
      state: enabled
@@ -130,6 +125,11 @@
     copy: 
       src: /home/ansadmin/playbook/sonarqube
       dest: /etc/nginx/sites-enabled/
+      
+  - name: Restart sonarqube service
+    service:
+      name: sonarqube
+      state: restarted
       
   - name: Restart nginx service
     service:
