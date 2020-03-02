@@ -19,7 +19,7 @@
       state: present
       
    - name: Enable psql
-     service: name=postgresql status=enabled
+     service: name=postgresql status=started
     
    - name: Start psql
-     service: name=postgresql status=started
+     service: name=postgresql status=enabled
