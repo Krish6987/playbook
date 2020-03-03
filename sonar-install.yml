@@ -29,8 +29,8 @@
        name: mysql-server
        
    - name: install mysql-python
-     apt:
-       name: mysql
+     pip:
+       name: PyMySQL
        
    - name: Create sonarqube database
      mysql_db:
