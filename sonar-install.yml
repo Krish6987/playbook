@@ -30,15 +30,11 @@
        
    - name: Install easy_install
      apt:
-       name: easy_install
-       
-   - name: Install pip3
-     shell:
-       cmd: easy_install pip
+       name: python-pip
              
    - name: install mysql-python
-     shell:
-       cmd: pip install MySQL-python
+     pip:
+       name: MySQL-python
        
    - name: Create sonarqube database
      mysql_db:
