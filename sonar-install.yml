@@ -26,11 +26,12 @@
    - name: Install mysql
      apt:
        name: mysql-server
-       state: present
        
    - name: Create sonarqube database
      mysql_db:
        name: sonarqube
+       state: present
+       
    - name: Create Sonar user
      mysql_user:
       name: sonar
