@@ -125,10 +125,27 @@
        src: /home/ansadmin/playbook/sonarqube.service
        dest: /etc/systemd/system/
       
-   - name: Start sonarqube service
-     service:
-       name: sonarqube
+   - name: Configure OS security limits for the sonar user
+     become: yes
+     template:
+       src: "/home/ansadmin/playbook/sonarqube.limits"
+       dest: "/etc/security/limits.d/99-sonarqube.conf"
+       owner: sonar
+
+   - name: Configure kernel level limits for ElasticSearch
+     become: yes
+     template:
+       src: "/home/ansadmin/playbook/sonarqube.sysctl"
+       dest: "/etc/sysctl.d/99-sonarqube.conf"
+       owner: sonar
+
+   - name: Enable the SonarQube service
+     become: yes
+     systemd:
        state: started
+       enabled: yes
+       daemon_reload: yes
+       name: sonarqube
       
    - name: copy nginx file
      copy: 
