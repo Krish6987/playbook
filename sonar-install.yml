@@ -28,6 +28,10 @@
      apt:
        name: mysql-server
        
+   - name: Install pip3
+     apt:
+       name: pip3
+             
    - name: install mysql-python
      shell:
        cmd: pip3 install PyMySQL -y
