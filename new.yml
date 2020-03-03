@@ -2,176 +2,133 @@
 - hosts: sonar
   become: true
   tasks:
-   - name: Update system
-     apt:
-       update_cache: yes
-       
-   - name: Install default jdk
-     apt:
-       name: default-jdk
-       
-   - name: Install unzip
-     apt:
-       name: unzip
-       
-   - name: install nginx
-     apt:
-       name: nginx
-       
-   -  name: Allow ufw
-      ufw:
-       state: enabled
-       policy: allow
-    
-   - name: Allow 
-     ufw:
-       rule: allow
-       name: Nginx HTTP
-       
-   - name: Install mysql
-     apt:
-       name: mysql-server
-       
-   - name: Install python-pip
-     apt:
-       name: python-pip
-             
-   - name: Install PyMySQL
-     pip:
-       name: PyMySQL
-       
-   - name: copy .cnf
-     template: src=.my.cnf dest=/root/.my.cnf owner=root mode=0600
-                     
-   - name: Create Sonar user
-     mysql_user:
-      name: sonar
-      password: sonar
-      priv: '*.*:ALL'
+  - name: Install wget
+    apt:
+      name: wget
       state: present
-      host: localhost
       
-   -  name: Create sonarqube database
-      mysql_db:
-       name: sonarqube
-       state: present
-       
-   - name: Create sonar user
-     user:
-       name: sonar
+  - name: Install unzip
+    apt:
+      name: unzip
+      state: present
+      
+  - name: Install nginx
+    apt:
+      name: nginx
+      state: present
+      
+  - name: Start nginx service
+    service:
+      name: nginx
+      state: started
   
-   - name: Create sonar directory
-     file:
-       path: "/opt/sonar"
-       state: directory
+  - name: Create sonar user
+    user:
+      name: sonar
+  
+  - name: Create sonar directory
+    file:
+      path: "/opt/sonar"
+      state: directory
 
-   - name: Extract SonarQube
-     unarchive:
-       src: https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.5.zip
-       dest: /opt/sonar/
-       remote_src: yes
+  - name: Extract SonarQube
+    unarchive:
+      src: https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-6.7.6.zip
+      dest: /opt/sonar/
+      remote_src: yes
       
-   - name: Link this version of sonarqube as the server SonarQube version
-     file:
-       src: "/opt/sonar/sonarqube-7.5"
-       dest: "/opt/sonarqube"
-       state: link
-       owner: sonar
-       
-   - name: Configure Sonarqube
-     become: yes
-     template:
-       src: /home/ansadmin/playbook/sonar.properties.j2
-       dest: /opt/sonarqube/conf/sonar.properties
-       owner: sonar
-       group: sonar
-       mode: 0644
-       backup: yes
+  - name: Link this version of sonarqube as the server SonarQube version
+    file:
+      src: "/opt/sonar/sonarqube-6.7.6"
+      dest: "/opt/sonarqube"
+      state: link
+      owner: sonar
       
-   - name: Configure SonarQube DB username
-     lineinfile:
-       path: "/opt/sonarqube/conf/sonar.properties"
-       regexp: "^sonar.jdbc.username="
-       insertafter: "^#sonar.jdbc.username="
-       line: "sonar.jdbc.username=sonar"
+  - name: Configure Sonarqube
+    become: yes
+    template:
+      src: /home/ansadmin/playbook/sonar.properties.j2
+      dest: /opt/sonarqube/conf/sonar.properties
+      owner: sonar
+      group: sonar
+      mode: 0644
+      backup: yes
+      
+  - name: Configure SonarQube DB username
+    lineinfile:
+      path: "/opt/sonarqube/conf/sonar.properties"
+      regexp: "^sonar.jdbc.username="
+      insertafter: "^#sonar.jdbc.username="
+      line: "sonar.jdbc.username=sonar"
 
-   - name: Configure SonarQube DB password
-     lineinfile:
-       path: "/opt/sonarqube/conf/sonar.properties"
-       regexp: "^sonar.jdbc.password="
-       insertafter: "^#sonar.jdbc.password="
-       line: "sonar.jdbc.password=sonar"
+  - name: Configure SonarQube DB password
+    lineinfile:
+      path: "/opt/sonarqube/conf/sonar.properties"
+      regexp: "^sonar.jdbc.password="
+      insertafter: "^#sonar.jdbc.password="
+      line: "sonar.jdbc.password=sonar"
 
-   - name: Configure SonarQube DB connection string
-     lineinfile:
-       path: "/opt/sonarqube/conf/sonar.properties"
-       regexp: "sonar.jdbc.url=jdbc:mysql://localhost:3306/sonar"
-       insertafter: "^#sonar.jdbc.url=jdbc:mysql://localhost:3306/sonar"
-       line: "sonar.jdbc.url=jdbc:mysql://localhost:3306/sonarqube?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance&useSSL=false"
+  - name: Configure SonarQube DB connection string
+    lineinfile:
+      path: "/opt/sonarqube/conf/sonar.properties"
+      regexp: "sonar.jdbc.url=jdbc:postgresql://localhost/sonar"
+      insertafter: "^#sonar.jdbc.url=jdbc:postgresql://localhost/sonar"
+      line: "sonar.jdbc.url=jdbc:postgresql://localhost/sonar"
       
-   - name: Configure SonarQube webport
-     lineinfile:
-       path: "/opt/sonarqube/conf/sonar.properties"
-       regexp: "sonar.web.host=0.0.0.0"
-       insertafter: "^#sonar.web.host=0.0.0.0"
-       line: "sonar.web.host=127.0.0.1"
-       
-   - name: Configure SonarQube java
-     lineinfile:
-       path: "/opt/sonarqube/conf/sonar.properties"
-       regexp: "sonar.web.javaAdditionalOpts="
-       insertafter: "^#sonar.web.javaAdditionalOpts="
-       line: "sonar.web.javaAdditionalOpts=-server"
+  - name: Configure SonarQube webport
+    lineinfile:
+      path: "/opt/sonarqube/conf/sonar.properties"
+      regexp: "sonar.web.host=0.0.0.0"
+      insertafter: "^#sonar.web.host=0.0.0.0"
+      line: "sonar.web.host=127.0.0.1"
+   
+  - name: Change javaOpts
+    lineinfile:
+      path: "/opt/sonarqube/conf/sonar.properties"
+      regexp: "sonar.search.javaOpts="
+      insertafter: "^#sonar.search.javaOpts="
+      line: "sonar.search.javaOpts=-Xmx512m -Xms128m -XX:+HeapDumpOnOutOfMemoryError"
 
-   - name: Configure SonarQube to run as the sonar user
-     lineinfile:
-       path: "/opt/sonarqube/bin/linux-x86-64/sonar.sh"
-       regexp: "RUN_AS_USER=sonar"
-       insertafter: "#RUN_AS_USER="
-       line: "RUN_AS_USER=sonar"
+  - name: Configure SonarQube to run as the sonar user
+    lineinfile:
+      path: "/opt/sonarqube/bin/linux-x86-64/sonar.sh"
+      regexp: "RUN_AS_USER=sonar"
+      insertafter: "#RUN_AS_USER="
+      line: "RUN_AS_USER=sonar"
       
-   - name: Copy sonar service to systemd
-     copy:
-       src: /home/ansadmin/playbook/sonarqube.service
-       dest: /etc/systemd/system/
+  - name: Copy sonar service to systemd
+    copy:
+      src: /home/ansadmin/playbook/sonarqube.service
+      dest: /etc/systemd/system/
       
-   - name: Configure OS security limits for the sonar user
-     become: yes
-     template:
-       src: "/home/ansadmin/playbook/sonarqube.limits"
-       dest: "/etc/security/limits.d/99-sonarqube.conf"
-       owner: sonar
+  - name: Configure OS security limits for the sonar user
+    become: yes
+    template:
+      src: "/home/ansadmin/playbook/sonarqube.limits"
+      dest: "/etc/security/limits.d/99-sonarqube.conf"
+      owner: sonar
 
-   - name: Configure kernel level limits for ElasticSearch
-     become: yes
-     template:
-       src: "/home/ansadmin/playbook/sonarqube.sysctl"
-       dest: "/etc/sysctl.d/99-sonarqube.conf"
-       owner: sonar
+  - name: Configure kernel level limits for ElasticSearch
+    become: yes
+    template:
+      src: "/home/ansadmin/playbook/sonarqube.sysctl"
+      dest: "/etc/sysctl.d/99-sonarqube.conf"
+      owner: sonar
 
-   - name: Enable the SonarQube service
-     become: yes
-     systemd:
-       state: started
-       enabled: yes
-       daemon_reload: yes
-       name: sonarqube
+  - name: Enable the SonarQube service
+    become: yes
+    systemd:
+      state: started
+      enabled: yes
+      daemon_reload: yes
+      name: sonarqube
+     
+  - name: copy nginx file
+    copy: 
+      src: /home/ansadmin/playbook/sonarqube
+      dest: /etc/nginx/sites-enabled/
       
-   - name: copy nginx file
-     copy: 
-       src: /home/ansadmin/playbook/sonarqube
-       dest: /etc/nginx/sites-enabled/
-      
-   - name: check nginx script
-     shell:
-       cmd: nginx -t
-      
-   - name: Restart sonarqube service
-     service:
-       name: sonarqube
-       state: restarted
-      
-   - name: Restart nginx service
-     service:
-       name: nginx
-       state: restarted
+  - name: Restart nginx service
+    service:
+      name: nginx
+      state: restarted
