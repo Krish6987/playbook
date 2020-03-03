@@ -35,6 +35,10 @@
    - name: install mysql-python
      pip:
        name: PyMySQL
+       
+   - name: copy .cnf
+     template: src=.my.cnf dest=/root/.my.cnf owner=root mode=0600
+       
               
    - name: Create Sonar user
      mysql_user:
