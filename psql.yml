@@ -20,7 +20,7 @@
       cmd: wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | apt-key add -
    - name: Install postgresql
      apt: 
-      name: postgresql-9.5
+      name: postgresql
       state: present
     
    - name: Install psql-contrib
