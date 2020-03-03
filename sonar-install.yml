@@ -34,7 +34,7 @@
              
    - name: install mysql-python
      pip:
-       name: MySQL-python
+       name: PyMySQL
        
    - name: Create sonarqube database
      mysql_db:
