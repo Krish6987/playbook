@@ -15,8 +15,9 @@
        name: nginx
        
    -  name: Allow ufw
-      state: enabled
-      policy: allow
+      ufw:
+       state: enabled
+       policy: allow
     
    - name: Allow 
      ufw:
