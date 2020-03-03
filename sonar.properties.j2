@@ -18,12 +18,12 @@ c20e5a3 on 18 May
 # User credentials.
 # Permissions to create tables, indices and triggers must be granted to JDBC user.
 # The schema must be created first.
-sonar.jdbc.username={{ sonar_db_user }}
-sonar.jdbc.password={{ sonar_db_pass }}
+#sonar.jdbc.username=
+#sonar.jdbc.password=
 
 #----- PostgreSQL 8.x or greater
 # If you don't use the schema named "public", please refer to http://jira.sonarsource.com/browse/SONAR-5000
-sonar.jdbc.url=jdbc:postgresql://localhost/sonar
+#sonar.jdbc.url=jdbc:postgresql://localhost/sonar
 
 #----- Connection pool settings
 # The maximum number of active connections that can be allocated
@@ -65,7 +65,7 @@ sonar.jdbc.url=jdbc:postgresql://localhost/sonar
 #    -Djava.security.egd=file:/dev/./urandom is an option to resolve the problem.
 #    See https://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source
 #
-sonar.web.javaOpts=-Xmx512m -Xms128m -XX:+HeapDumpOnOutOfMemoryError
+#sonar.web.javaOpts=-Xmx512m -Xms128m -XX:+HeapDumpOnOutOfMemoryError
 
 # Same as previous property, but allows to not repeat all other settings like -Xmx
 #sonar.web.javaAdditionalOpts=
