@@ -28,6 +28,10 @@
      apt:
        name: mysql-server
        
+   - name: install mysql-python
+     apt:
+       name: MySQL-python
+       
    - name: Create sonarqube database
      mysql_db:
        name: sonarqube
