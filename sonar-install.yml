@@ -52,3 +52,89 @@
       mysql_db:
        name: sonarqube
        state: present
+       
+   - name: Create sonar user
+    user:
+      name: sonar
+  
+   - name: Create sonar directory
+     file:
+       path: "/opt/sonar"
+       state: directory
+
+   - name: Extract SonarQube
+     unarchive:
+       src: https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-8.0.zip
+       dest: /opt/sonar/
+       remote_src: yes
+      
+  - name: Link this version of sonarqube as the server SonarQube version
+     file:
+       src: "/opt/sonar/sonarqube-8.0"
+       dest: "/opt/sonarqube"
+       state: link
+       owner: sonar
+      
+   - name: Configure SonarQube DB username
+     lineinfile:
+       path: "/opt/sonarqube/conf/sonar.properties"
+       regexp: "^sonar.jdbc.username="
+       insertafter: "^#sonar.jdbc.username="
+       line: "sonar.jdbc.username=sonar"
+
+   - name: Configure SonarQube DB password
+     lineinfile:
+       path: "/opt/sonarqube/conf/sonar.properties"
+       regexp: "^sonar.jdbc.password="
+       insertafter: "^#sonar.jdbc.password="
+       line: "sonar.jdbc.password=sonar"
+
+   - name: Configure SonarQube DB connection string
+     lineinfile:
+       path: "/opt/sonarqube/conf/sonar.properties"
+       regexp: "sonar.jdbc.url=jdbc:mysql://localhost:3306/sonar"
+       insertafter: "^#sonar.jdbc.url=jdbc:mysql://localhost:3306/sonar"
+       line: "sonar.jdbc.url=jdbc:mysql://localhost:3306/sonarqube?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance&useSSL=false"
+      
+   - name: Configure SonarQube webport
+     lineinfile:
+       path: "/opt/sonarqube/conf/sonar.properties"
+       regexp: "sonar.web.host=0.0.0.0"
+       insertafter: "^#sonar.web.host=0.0.0.0"
+       line: "sonar.web.host=127.0.0.1"
+
+   - name: Configure SonarQube to run as the sonar user
+     lineinfile:
+       path: "/opt/sonarqube/bin/linux-x86-64/sonar.sh"
+       regexp: "RUN_AS_USER=sonar"
+       insertafter: "#RUN_AS_USER="
+       line: "RUN_AS_USER=sonar"
+      
+   - name: Copy sonar service to systemd
+     copy:
+       src: /home/ansadmin/playbook/sonarqube.service
+       dest: /etc/systemd/system/
+      
+   - name: Start sonarqube service
+     service:
+       name: sonarqube
+       state: started
+      
+   - name: copy nginx file
+     copy: 
+       src: /home/ansadmin/playbook/sonarqube
+       dest: /etc/nginx/sites-enabled/
+      
+   - name: check nginx script
+     shell:
+       cmd: nginx -t
+      
+   - name: Restart sonarqube service
+     service:
+       name: sonarqube
+       state: restarted
+      
+   - name: Restart nginx service
+     service:
+       name: nginx
+       state: restarted
