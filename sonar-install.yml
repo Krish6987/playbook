@@ -105,6 +105,13 @@
        regexp: "sonar.web.host=0.0.0.0"
        insertafter: "^#sonar.web.host=0.0.0.0"
        line: "sonar.web.host=127.0.0.1"
+       
+   - name: Configure SonarQube java
+     lineinfile:
+       path: "/opt/sonarqube/conf/sonar.properties"
+       regexp: "sonar.web.javaAdditionalOpts="
+       insertafter: "^#sonar.web.javaAdditionalOpts="
+       line: "sonar.web.javaAdditionalOpts=-server"
 
    - name: Configure SonarQube to run as the sonar user
      lineinfile:
