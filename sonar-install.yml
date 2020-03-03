@@ -29,7 +29,7 @@
        name: mysql-server
        
    - name: install mysql-python
-     pip:
+     pip3:
        name: PyMySQL
        
    - name: Create sonarqube database
