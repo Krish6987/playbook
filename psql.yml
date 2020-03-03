@@ -32,7 +32,7 @@
    - name: Enables password authentication method
      become: yes
      replace:
-       dest: /etc/postgresql/9.5/main/pg_hba.conf
+       dest: /etc/postgresql/12/main/pg_hba.conf
        regexp: "^local\\s*all\\s*all\\s*peer$"
        replace: "local   all             all            md5"
 
