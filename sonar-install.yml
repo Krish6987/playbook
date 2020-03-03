@@ -16,7 +16,7 @@
        
    -  name: Allow ufw
       state: enabled
-        policy: allow
+      policy: allow
     
    - name: Allow 
      ufw:
