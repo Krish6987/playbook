@@ -28,6 +28,10 @@
      apt:
        name: mysql-server
        
+   - name: Install easy_install
+     apt:
+       name: easy_install
+       
    - name: Install pip3
      shell:
        cmd: easy_install pip
