@@ -29,12 +29,12 @@
        name: mysql-server
        
    - name: Install pip3
-     apt:
-       name: pip3
+     shell:
+       cmd: easy_install pip
              
    - name: install mysql-python
      shell:
-       cmd: pip3 install PyMySQL -y
+       cmd: pip install MySQL-python
        
    - name: Create sonarqube database
      mysql_db:
