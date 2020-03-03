@@ -20,7 +20,7 @@
       cmd: wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | apt-key add -
    - name: Install postgresql
      apt: 
-      name: postgresql
+      name: postgresql-9.5
       state: present
     
    - name: Install psql-contrib
@@ -28,6 +28,19 @@
       name: postgresql-contrib
       state: present
       
+   
+   - name: Enables password authentication method
+     become: yes
+     replace:
+       dest: /etc/postgresql/9.5/main/pg_hba.conf
+       regexp: "^local\\s*all\\s*all\\s*peer$"
+       replace: "local   all             all            md5"
+
+   - name: Reloads Postgres
+     become: yes
+     service:
+       name: postgresql
+       state: reloaded
    - name: Create sonar user in databse
      become_user: postgres
      postgresql_user:
