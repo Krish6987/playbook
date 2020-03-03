@@ -38,8 +38,7 @@
        
    - name: copy .cnf
      template: src=.my.cnf dest=/root/.my.cnf owner=root mode=0600
-       
-              
+                     
    - name: Create Sonar user
      mysql_user:
       name: sonar
@@ -68,7 +67,7 @@
        dest: /opt/sonar/
        remote_src: yes
       
-  - name: Link this version of sonarqube as the server SonarQube version
+   - name: Link this version of sonarqube as the server SonarQube version
      file:
        src: "/opt/sonar/sonarqube-7.5"
        dest: "/opt/sonarqube"
