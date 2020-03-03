@@ -54,8 +54,8 @@
        state: present
        
    - name: Create sonar user
-    user:
-      name: sonar
+     user:
+       name: sonar
   
    - name: Create sonar directory
      file:
