@@ -24,7 +24,7 @@
   
   - name: Create sonar user
     user:
-      name: sonarqube
+      name: sonar
   
   - name: Create sonar directory
     file:
@@ -42,7 +42,7 @@
       src: "/opt/sonar/sonarqube-6.7.6"
       dest: "/opt/sonarqube"
       state: link
-      owner: sonarqube
+      owner: sonar
       
   - name: Configure SonarQube DB username
     lineinfile:
@@ -77,7 +77,7 @@
       path: "/opt/sonarqube/conf/sonar.properties"
       regexp: "sonar.search.javaOpts="
       insertafter: "^#sonar.search.javaOpts="
-      line: "sonar.search.javaOpts=-Xms512m  -Xmx512m"
+      line: "sonar.search.javaOpts=-Xmx512m -Xms128m -XX:+HeapDumpOnOutOfMemoryError"
 
   - name: Configure SonarQube to run as the sonar user
     lineinfile:
