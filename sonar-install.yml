@@ -1,0 +1,40 @@
+---
+- hosts: sonar
+  become: true
+  tasks:
+   - name: Update system
+     apt:
+       update_cache: yes
+       
+   - name: Install default jdk
+     apt:
+       name: default-jdk
+       
+   - name: install nginx
+     apt:
+       name: nginx
+       
+   -  name: Allow ufw
+      state: enabled
+        policy: allow
+    
+   - name: Allow 
+     ufw:
+       rule: allow
+       name: Nginx HTTP
+       
+   - name: Install mysql
+     apt:
+       name: mysql-server
+       state: present
+       
+   - name: Create sonarqube database
+     mysql_db:
+       name: sonarqube
+   - name: Create Sonar user
+     mysql_user:
+      name: sonar
+      password: sonar
+      priv: '*.*:ALL'
+      state: present
+      host: localhost
