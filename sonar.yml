@@ -53,7 +53,7 @@
   - name: Permission to directory for sonar user
     become: yes
     shell:
-      cmd: chmod -R sonar:sonar /opt/sonar
+      cmd: chown -R sonar:sonar /opt/sonar
       
   - name: Configure SonarQube DB username
     lineinfile:
