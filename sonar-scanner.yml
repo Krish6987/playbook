@@ -13,13 +13,6 @@
        dest: /opt/sonarscanner/
        remote_src: yes
        
-   - name: Configure SonarQube DB username
-     lineinfile:
-       path: "/opt/sonarscanner/sonar-scanner-3.2.0.1227-linux/conf/sonar-scanner.properties"
-       regexp: "^sonar.host.url="
-       insertafter: "^sonar.host.url="
-       line: "sonar.host.url=http://127.0.0.1:9000"
-       
    - name: Making the file binary executable
      become: yes
      shell:
