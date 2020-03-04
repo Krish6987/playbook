@@ -40,17 +40,4 @@
      become: yes
      service:
        name: postgresql
-       state: reloaded
-   - name: Create sonar user in databse
-     become_user: postgres
-     postgresql_user:
-       name: sonar
-       password: sonar
-       role_attr_flags: CREATEDB,NOSUPERUSER
-      
-   - name: Create sonar database
-     become_user: postgres
-     postgresql_db:
-       name: sonar
-       owner: sonar
-      
+       state: reloaded    
