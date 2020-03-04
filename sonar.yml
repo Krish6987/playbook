@@ -50,7 +50,7 @@
       dest: /opt/sonar/
       remote_src: yes
       
-  - name: Permission for sonar user
+  - name: Permission to directory for sonar user
     become: yes
     shell:
       cmd: chmod -R sonar:sonar /opt/sonar
