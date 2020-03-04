@@ -11,16 +11,6 @@
     apt:
       name: unzip
       state: present
-      
-  - name: Install nginx
-    apt:
-      name: nginx
-      state: present
-      
-  - name: Start nginx service
-    service:
-      name: nginx
-      state: started
   
   - name: Create sonar user
     user:
@@ -95,13 +85,3 @@
       enabled: yes
       daemon_reload: yes
       name: sonarqube
-     
-  - name: copy nginx file
-    copy: 
-      src: /home/ansadmin/playbook/sonarqube
-      dest: /etc/nginx/sites-enabled/
-      
-  - name: Restart nginx service
-    service:
-      name: nginx
-      state: restarted
