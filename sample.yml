@@ -1,12 +1,7 @@
 ---
 - hosts: sonar
   become: true
-  tasks:
-  - name: Install wget
-    apt:
-      name: wget
-      state: present
-      
+  tasks:      
   - name: Install unzip
     apt:
       name: unzip
@@ -33,42 +28,7 @@
       dest: "/opt/sonarqube"
       state: link
       owner: sonar
-      
-  - name: Configure SonarQube DB username
-    lineinfile:
-      path: "/opt/sonarqube/conf/sonar.properties"
-      regexp: "^sonar.jdbc.username="
-      insertafter: "^#sonar.jdbc.username="
-      line: "sonar.jdbc.username=sonar"
-
-  - name: Configure SonarQube DB password
-    lineinfile:
-      path: "/opt/sonarqube/conf/sonar.properties"
-      regexp: "^sonar.jdbc.password="
-      insertafter: "^#sonar.jdbc.password="
-      line: "sonar.jdbc.password=sonar"
-
-  - name: Configure SonarQube DB connection string
-    lineinfile:
-      path: "/opt/sonarqube/conf/sonar.properties"
-      regexp: "sonar.jdbc.url=jdbc:postgresql://localhost/sonar"
-      insertafter: "^#sonar.jdbc.url=jdbc:postgresql://localhost/sonar"
-      line: "sonar.jdbc.url=jdbc:postgresql://localhost/sonar"
-      
-  - name: Configure SonarQube webport
-    lineinfile:
-      path: "/opt/sonarqube/conf/sonar.properties"
-      regexp: "sonar.web.host=0.0.0.0"
-      insertafter: "^#sonar.web.host=0.0.0.0"
-      line: "sonar.web.host=127.0.0.1"
-   
-  - name: Change javaOpts
-    lineinfile:
-      path: "/opt/sonarqube/conf/sonar.properties"
-      regexp: "sonar.search.javaOpts="
-      insertafter: "^#sonar.search.javaOpts="
-      line: "sonar.search.javaOpts=-Xmx512m -Xms128m -XX:+HeapDumpOnOutOfMemoryError"
-
+ 
   - name: Configure SonarQube to run as the sonar user
     lineinfile:
       path: "/opt/sonarqube/bin/linux-x86-64/sonar.sh"
