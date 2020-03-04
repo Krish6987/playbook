@@ -23,13 +23,13 @@
 
   - name: Extract SonarQube
     unarchive:
-      src: https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-6.7.6.zip
+      src: https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-8.0.zip
       dest: /opt/sonar/
       remote_src: yes
       
   - name: Link this version of sonarqube as the server SonarQube version
     file:
-      src: "/opt/sonar/sonarqube-6.7.6"
+      src: "/opt/sonar/sonarqube-8.0"
       dest: "/opt/sonarqube"
       state: link
       owner: sonar
@@ -77,6 +77,7 @@
       line: "RUN_AS_USER=sonar"
       
   - name: Copy sonar service to systemd
+    become: yes
     copy:
       src: /home/ansadmin/playbook/sonarqube.service
       dest: /etc/systemd/system/
