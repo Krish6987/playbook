@@ -1,0 +1,29 @@
+---
+- hosts: sonar
+  become: true
+  tasks:
+   - name: Create sonarscanner directory
+     file:
+       path: "/opt/sonarscanner"
+       state: directory
+       
+   - name: Extract SonarScanner
+     unarchive:
+       src: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
+       dest: /opt/sonarscanner/
+       remote_src: yes
+       
+   - name: Configure SonarQube DB username
+     lineinfile:
+       path: "/opt/sonarscanner/sonar-scanner-3.2.0.1227-linux/conf/sonar-scanner.properties"
+       regexp: "^sonar.host.url="
+       insertafter: "^sonar.host.url="
+       line: "sonar.host.url=http://127.0.0.1:9000"
+       
+    - name: Making the file binary executable
+      become: yes
+      shell:
+        cmd: chmod +x sonar-scanner-3.2.0.1227-linux/bin/sonar-scanner
+        
+    - name: create a symbolic link
+      file: src=/opt/sonarscanner/sonar-scanner-3.2.0.1227-linux/bin/sonar-scanner dest=/usr/local/bin/sonar-scanner state=link
