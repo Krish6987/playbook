@@ -25,6 +25,19 @@
   - name: Create sonar user
     user:
       name: sonar
+      
+  - name: Create sonar user in databse
+     become_user: postgres
+     postgresql_user:
+       name: sonar
+       password: sonar
+       role_attr_flags: CREATEDB,NOSUPERUSER
+      
+  - name: Create sonar database
+    become_user: postgres
+    postgresql_db:
+      name: sonar
+      owner: sonar
   
   - name: Create sonar directory
     file:
@@ -37,9 +50,14 @@
       dest: /opt/sonar/
       remote_src: yes
       
+  - name: Permission for sonar user
+    become: yes
+    shell:
+      cmd: chmod -R sonar:sonar /opt/sonar
+      
   - name: Configure SonarQube DB username
     lineinfile:
-      path: "/opt/sonarqube/conf/sonar.properties"
+      path: "/opt/sonar/sonarqube-8.0/conf/sonar.properties"
       regexp: "^sonar.jdbc.username="
       insertafter: "^#sonar.jdbc.username="
       line: "sonar.jdbc.username=sonar"
