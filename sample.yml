@@ -28,15 +28,13 @@
       remote_src: yes
       
   - name: Link this version of sonarqube as the server SonarQube version
-    file:
-      src: "/opt/sonar/sonarqube-8.0"
-      dest: "/opt/sonarqube"
-      state: link
-      owner: sonar
+    become: yes
+    shell:
+      cmd: chown -R sonar:sonar /opt/sonar
  
   - name: Configure SonarQube to run as the sonar user
     lineinfile:
-      path: "/opt/sonarqube/bin/linux-x86-64/sonar.sh"
+      path: "/opt/sonar/sonarqube-8.0/bin/linux-x86-64/sonar.sh"
       regexp: "RUN_AS_USER=sonar"
       insertafter: "#RUN_AS_USER="
       line: "RUN_AS_USER=sonar"
