@@ -6,7 +6,12 @@
     apt:
       name: unzip
       state: present
-  
+      
+  - name: install jdk
+    apt:
+      name: default-jdk
+      state: present
+      
   - name: Create sonar user
     user:
       name: sonar
