@@ -2,9 +2,9 @@
 - hosts: sonar
   become: true
   tasks:       
-   - name: Install openjdk-11-jdk
+   - name: Install default-jdk
      apt:
-       name: openjdk-11-jdk
+       name: default-jdk
        state: present
        
    - name: Install python-psycopg2
