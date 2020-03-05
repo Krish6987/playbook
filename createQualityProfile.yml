@@ -2,9 +2,74 @@
 - hosts: sonar
   become: true
   tasks:
+   - name: Create Quality profile for CS
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=cs' -d 'name=Custom-Sonar-Way' 'http://localhost:9000/api/qualityprofile/create'
+       
+   - name: Set this as default for CS
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=cs' -d 'qualityProfile=Custom-Sonar-Way'
+     
+   - name: Create Quality profile for CSS
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=css' -d 'name=Custom-Sonar-Way' 'http://localhost:9000/api/qualityprofile/create'
+       
+   - name: Set this as default for CSS
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=css' -d 'qualityProfile=Custom-Sonar-Way'
+     
+   - name: Create Quality profile for Flex
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=flex' -d 'name=Custom-Sonar-Way' 'http://localhost:9000/api/qualityprofile/create'
+       
+   - name: Set this as default for Flex
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=flex' -d 'qualityProfile=Custom-Sonar-Way'
+       
+   - name: Create Quality profile for GO
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=go' -d 'name=Custom-Sonar-Way' 'http://localhost:9000/api/qualityprofile/create'
+       
+   - name: Set this as default for GO
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=go' -d 'qualityProfile=Custom-Sonar-Way'
+       
    - name: Create Quality profile for Java
      shell:
        cmd: curl -X POST -u 'admin:admin' -d 'language=java' -d 'name=Custom-Sonar-Way' 'http://localhost:9000/api/qualityprofile/create'
        
    - name: Set this as default for Java language
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=java' -d 'qualityProfile=Custom-Sonar-Way'
+     
+   - name: Create Quality profile for JS
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=js' -d 'name=Custom-Sonar-Way' 'http://localhost:9000/api/qualityprofile/create'
+       
+   - name: Set this as default for JS
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=js' -d 'qualityProfile=Custom-Sonar-Way''
+       
+   - name: Create Quality profile for Kotlin
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=kotlin' -d 'name=Custom-Sonar-Way' 'http://localhost:9000/api/qualityprofile/create'
+       
+   - name: Set this as default for Kotlin
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=kotlin' -d 'qualityProfile=Custom-Sonar-Way'
+       
+   - name: Create Quality profile for PHP
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=php' -d 'name=Custom-Sonar-Way' 'http://localhost:9000/api/qualityprofile/create'
+       
+   - name: Set this as default for PHP
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=php' -d 'qualityProfile=Custom-Sonar-Way'
   
+   - name: Create Quality profile for Python
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=py' -d 'name=Custom-Sonar-Way' 'http://localhost:9000/api/qualityprofile/create'
+       
+   - name: Set this as default for Python
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=py' -d 'qualityProfile=Custom-Sonar-Way'
