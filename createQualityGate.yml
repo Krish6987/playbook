@@ -1,0 +1,15 @@
+---
+- hosts:
+  become: true
+  tasks:
+   - name: create sonar quality gate with blocker violations
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'error=30' -d 'gateId=2' -d 'metric='blocker_violations' -d 'op=LT' -d 'period=1' -d 'warning=10' 'http://localhost:9000/api/qualitygates/create_condition'
+       
+   - name: create sonar quality gate with Coverage
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'error=30' -d 'gateId=2' -d 'metric='coverage' -d 'op=LT' -d 'period=1' -d 'warning=10' 'http://localhost:9000/api/qualitygates/create_condition'
+       
+   - name: Make this as default quality gate
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'id=2' 'http://localhost:9000/api/qualitygates/set_as_default'
