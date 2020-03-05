@@ -1,0 +1,10 @@
+---
+- hosts: sonar
+  become: true
+  tasks:
+   - name: Create Quality profile for Java
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=java' -d 'name=Custom-Sonar-Way' 'http://localhost:9000/api/qualityprofile/create'
+       
+   - name: Set this as default for Java language
+  
