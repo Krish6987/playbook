@@ -2,6 +2,14 @@
 - hosts:
   become: true
   tasks:
+   - name: Create Quality profile for Java
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=java' -d 'name=Custom-Sonar-Way' 'http://localhost:9000/api/qualityprofiles/create'
+       
+   - name: Set this as default for Java
+     shell:
+       cmd: curl -X POST -u 'admin:admin' -d 'language=java' -d 'qualityProfile=Custom-Sonar-Way' 'http://localhost:9000/api/qualityprofiles/set_default'
+
    - name: create sonar quality gate with blocker violations
      shell:
        cmd: curl -X POST -u 'admin:admin' -d 'error=30' -d 'gateId=2' -d 'metric='blocker_violations' -d 'op=LT' -d 'period=1' -d 'warning=10' 'http://localhost:9000/api/qualitygates/create_condition'
