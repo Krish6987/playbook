@@ -1,0 +1,124 @@
+---
+- hosts: '{{ target }}'
+  become: true
+  tasks:       
+   - name: Install default-jdk
+     apt:
+       name: default-jdk
+       state: present
+       
+   - name: Install python-psycopg2
+     apt:
+       name: python-psycopg2
+       state: present
+      
+   - name: Download psql
+     shell:
+      cmd: sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
+   - name: Add key
+     shell:
+      cmd: wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | apt-key add -
+   - name: Install postgresql
+     apt: 
+      name: postgresql
+      state: present
+    
+   - name: Install psql-contrib
+     apt: 
+      name: postgresql-contrib
+      state: present
+
+   - name: Reloads Postgres
+     become: yes
+     service:
+       name: postgresql
+       state: reloaded  
+       
+   -  name: Update the system
+      become: yes
+      shell:
+        cmd: apt-get update
+     
+   - name: Install wget
+    apt:
+      name: wget
+      state: present
+      
+   - name: Install unzip
+     apt:
+       name: unzip
+       state: present
+  
+   - name: Create sonar user
+     user:
+       name: sonar
+       
+   - name: Create sonar user in databse
+     become_user: postgres
+     postgresql_user:
+       name: sonar
+       password: sonar
+       role_attr_flags: CREATEDB,NOSUPERUSER
+      
+   - name: Create sonar database
+     become_user: postgres
+     postgresql_db:
+       name: sonar
+       owner: sonar
+   
+   - name: Create sonar directory
+     file:
+       path: "/opt/sonar"
+       state: directory
+
+   - name: Extract SonarQube
+     unarchive:
+       src: https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.5.zip
+       dest: /opt/sonar/
+       remote_src: yes
+      
+   - name: Permission to directory for sonar user
+     become: yes
+     shell:
+       cmd: chown -R sonar:sonar /opt/sonar
+       
+   - name: Configure SonarQube DB username
+     lineinfile:
+       path: "/opt/sonar/sonarqube-7.5/conf/sonar.properties"
+       regexp: "^sonar.jdbc.username="
+       insertafter: "^#sonar.jdbc.username="
+       line: "sonar.jdbc.username=sonar"
+
+   - name: Configure SonarQube DB password
+     lineinfile:
+       path: "/opt/sonar/sonarqube-7.5/conf/sonar.properties"
+       regexp: "^sonar.jdbc.password="
+       insertafter: "^#sonar.jdbc.password="
+       line: "sonar.jdbc.password=sonar"
+
+   - name: Configure SonarQube DB connection string
+     lineinfile:
+       path: "/opt/sonar/sonarqube-7.5/conf/sonar.properties"
+       regexp: "sonar.jdbc.url=jdbc:postgresql://localhost/sonar"
+       insertafter: "^#sonar.jdbc.url=jdbc:postgresql://localhost/sonar"
+       line: "sonar.jdbc.url=jdbc:postgresql://localhost/sonar"
+
+   - name: Configure SonarQube to run as the sonar user
+     lineinfile:
+       path: "/opt/sonar/sonarqube-7.5/bin/linux-x86-64/sonar.sh"
+       regexp: "RUN_AS_USER=sonar"
+       insertafter: "#RUN_AS_USER="
+       line: "RUN_AS_USER=sonar"
+      
+   - name: Copy sonar service to systemd
+     copy:
+       src: /home/ansadmin/playbook/sonarqube.service
+       dest: /etc/systemd/system/
+      
+   - name: Enable the SonarQube service
+     become: yes
+     systemd:
+       state: started
+       enabled: yes
+       daemon_reload: yes
+       name: sonarqube
