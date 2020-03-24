@@ -40,9 +40,9 @@
         cmd: apt-get update
      
    - name: Install wget
-    apt:
-      name: wget
-      state: present
+     apt:
+       name: wget
+       state: present
       
    - name: Install unzip
      apt:
