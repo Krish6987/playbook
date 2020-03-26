@@ -34,10 +34,20 @@
        name: postgresql
        state: reloaded  
        
+   - name: Wait for 1 minutes
+    pause:
+      minutes: 1
+       
    -  name: Update the system
       become: yes
       shell:
         cmd: apt-get update
+        
+   - name: Reloads Postgres
+     become: yes
+     service:
+       name: postgresql
+       state: reloaded 
      
    - name: Install wget
      apt:
