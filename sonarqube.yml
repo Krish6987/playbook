@@ -112,7 +112,7 @@
       
    - name: Copy sonar service to systemd
      copy:
-       src: /home/ansadmin/playbook/sonarqube.service
+       src: /usr/src/app/playbooks/playbook/sonarqube.service
        dest: /etc/systemd/system/
       
    - name: Enable the SonarQube service
