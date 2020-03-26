@@ -40,6 +40,11 @@
      pause:
        minutes: 1
        
+   - name: Install python-psycopg2
+     apt:
+       name: python-psycopg2
+       state: present
+       
    -  name: Update the system
       become: yes
       shell:
