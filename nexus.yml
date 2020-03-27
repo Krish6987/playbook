@@ -79,6 +79,10 @@
 
   - name: create symbolic links to /etc/init.d/nexus
     file: src={{nexus_dir}}/bin/nexus dest=/etc/init.d/nexus state=link
+    
+  - name: Update rc.d
+    shell:
+      cmd: cd /etc/init.d/ && update-rc.d nexus defaults
 
   - name: start nexus
     become: yes
