@@ -20,8 +20,8 @@
   - name: install wget
     yum: pkg='wget' state=installed
 
-  - name: install jdk 7
-    yum: pkg='default-jdk' state=installed
+  - name: install jdk 8
+    yum: pkg='openjdk-8-jdk' state=installed
   
   - name: install git
     yum: pkg='git' state=installed
