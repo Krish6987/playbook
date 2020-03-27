@@ -21,7 +21,7 @@
     apt: pkg='wget' state=present
 
   - name: install jdk 7
-    apt: pkg='java-1.8.0-openjdk' state=present
+    apt: pkg='default-jdk' state=present
   
   - name: install git
     apt: pkg='git' state=present
