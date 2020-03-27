@@ -1,9 +1,0 @@
----
-- hosts: {{ target }}
-  become_user: ansadmin
-  tasks:
-   - name: Install Java
-     apt:
-       name: default-jdk
-       state: present
-  
