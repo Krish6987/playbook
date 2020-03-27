@@ -123,11 +123,7 @@
       url: "{{ jenkins_url }}"
       user: "{{ jenkins_username }}"
       password: "{{ jenkins_password }}"
-             
-  - name: Waiting for Pipeline Job to start building
-    pause:
-      seconds: 15
-      
+                  
   - name: Restart Jenkins
     service:
       name: jenkins
