@@ -1,5 +1,5 @@
 ---
-- hosts: jenkins
+- hosts: '{{ target }}'
   become: true
   vars:
     jenkins_url: http://localhost:8080
