@@ -10,7 +10,7 @@
     nexus_admin_password: admin123
     nexus_data_dir: /usr/local/nexus/nexus-3.21.1-01
     nexus_api_scheme: http
-    nexus_api_hostname: 54.196.97.187
+    nexus_api_hostname: '{{ nexus_url }}'
     nexus_api_port: 8081
     nexus_api_context_path: '/'
     nexus_default_admin_password: 6f518a87-a90f-40f3-b372-0877190ebb17
@@ -21,7 +21,7 @@
     yum: pkg='wget' state=installed
 
   - name: install jdk 7
-    yum: pkg='java-1.8.0-openjdk' state=installed
+    yum: pkg='default-jdk' state=installed
   
   - name: install git
     yum: pkg='git' state=installed
