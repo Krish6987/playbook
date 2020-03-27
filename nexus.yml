@@ -18,16 +18,16 @@
   tasks:
 
   - name: install wget
-    apt: pkg='wget' state=installed
+    apt: pkg='wget' state=present
 
   - name: install jdk 7
-    apt: pkg='java-1.8.0-openjdk' state=installed
+    apt: pkg='java-1.8.0-openjdk' state=present
   
   - name: install git
-    apt: pkg='git' state=installed
+    apt: pkg='git' state=present
 
   - name: install unzip
-    apt: pkg='unzip' state=installed
+    apt: pkg='unzip' state=present
 
   - name: create "nexus" group
     group: name=nexus 
