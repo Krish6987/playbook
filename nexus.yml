@@ -18,16 +18,16 @@
   tasks:
 
   - name: install wget
-    yum: pkg='wget' state=installed
+    apt: pkg='wget' state=present
 
   - name: install jdk 8
-    yum: pkg='openjdk-8-jdk' state=installed
+    apt: pkg='openjdk-8-jdk' state=present
   
   - name: install git
-    yum: pkg='git' state=installed
+    apt: pkg='git' state=present
 
   - name: install unzip
-    yum: pkg='unzip' state=installed
+    apt: pkg='unzip' state=present
 
   - name: create "nexus" group
     group: name=nexus 
