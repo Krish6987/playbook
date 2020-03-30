@@ -36,11 +36,16 @@
   - name: create "nexus" user
     user: name=nexus group=nexus 
     
-  - name: Unarchive a file that needs to be downloaded (added in 2.0)
-    unarchive:
-     src: http://download.sonatype.com/nexus/3/nexus-3.21.1-01-unix.tar.gz
+  - name: Copy nexus zip file to remote server
+    copy:
+     src: /usr/src/app/playbooks/playbook/nexus-3.21.1-01-unix.tar.qz
      dest: /usr/local
      remote_src: yes
+     
+  - name : Unzip the nexus file
+    unarchive:
+      src: /usr/local/nexus-3.21.1-01-unix.tar.qz
+      dest: /usr/local
     
   - name: make {{nexus_dir}} directory property of "nexus" user/group
     file: path={{nexus_dir}} group=nexus owner=nexus recurse=true
