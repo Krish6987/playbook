@@ -38,7 +38,7 @@
     
   - name: Copy nexus zip file to remote server
     copy:
-     src: /usr/src/app/playbooks/playbook/nexus-3.21.1-01-unix.tar.qz
+     src: /usr/src/app/playbooks/playbook/nexus-3.21.1-01-unix.tar.gz
      dest: /usr/local
      remote_src: yes
      
