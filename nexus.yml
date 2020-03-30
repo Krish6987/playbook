@@ -40,12 +40,12 @@
     copy:
      src: /usr/src/app/playbooks/playbook/nexus-3.21.1-01-unix.tar.gz
      dest: /usr/local
-     remote_src: yes
      
   - name : Unzip the nexus file
     unarchive:
       src: /usr/local/nexus-3.21.1-01-unix.tar.qz
       dest: /usr/local
+      remote_src: yes
     
   - name: make {{nexus_dir}} directory property of "nexus" user/group
     file: path={{nexus_dir}} group=nexus owner=nexus recurse=true
